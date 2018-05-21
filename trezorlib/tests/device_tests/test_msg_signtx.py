@@ -24,8 +24,7 @@ from .conftest import TREZOR_VERSION
 
 from trezorlib import coins
 from trezorlib import messages as proto
-from trezorlib.client import CallException
-from trezorlib.tools import parse_path
+from trezorlib.tools import parse_path, CallException
 
 TxApiTestnet = coins.tx_api['Testnet']
 
