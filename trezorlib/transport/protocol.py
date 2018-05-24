@@ -83,12 +83,12 @@ class Protocol:
         self.handle = handle
         self.session_counter = 0
 
-    def session_begin(self) -> None:
+    def begin_session(self) -> None:
         if self.session_counter == 0:
             self.handle.open()
         self.session_counter += 1
 
-    def session_end(self) -> None:
+    def end_session(self) -> None:
         self.session_counter = max(self.session_counter - 1, 0)
         if self.session_counter == 0:
             self.handle.close()
@@ -115,11 +115,11 @@ class ProtocolBasedTransport(Transport):
     def read(self) -> protobuf.MessageType:
         return self.protocol.read()
 
-    def session_begin(self) -> None:
-        self.protocol.session_begin()
+    def begin_session(self) -> None:
+        self.protocol.begin_session()
 
-    def session_end(self) -> None:
-        self.protocol.session_end()
+    def end_session(self) -> None:
+        self.protocol.end_session()
 
 
 class ProtocolV1(Protocol):
@@ -191,9 +191,9 @@ class ProtocolV2(Protocol):
         self.session = None
         super().__init__(handle)
 
-    def session_begin(self) -> None:
+    def begin_session(self) -> None:
         # ensure open connection
-        super().session_begin()
+        super().begin_session()
 
         # initiate session
         chunk = struct.pack('>B', V2_BEGIN_SESSION)
@@ -213,7 +213,7 @@ class ProtocolV2(Protocol):
 
         LOG.debug("[session {}] session started".format(self.session))
 
-    def session_end(self) -> None:
+    def end_session(self) -> None:
         if not self.session:
             return
 
@@ -229,7 +229,7 @@ class ProtocolV2(Protocol):
         finally:
             self.session = None
             # close connection if appropriate
-            super().session_end()
+            super().end_session()
 
     def write(self, msg: protobuf.MessageType) -> None:
         if not self.session:

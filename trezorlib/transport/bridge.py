@@ -64,13 +64,13 @@ class BridgeTransport(Transport):
         except:
             return []
 
-    def session_begin(self) -> None:
+    def begin_session(self) -> None:
         r = self.conn.post(TREZORD_HOST + '/acquire/%s/null' % self.device['path'], headers=self.HEADERS)
         if r.status_code != 200:
             raise TransportException('trezord: Could not acquire session' + get_error(r))
         self.session = r.json()['session']
 
-    def session_end(self) -> None:
+    def end_session(self) -> None:
         if not self.session:
             return
         r = self.conn.post(TREZORD_HOST + '/release/%s' % self.session, headers=self.HEADERS)

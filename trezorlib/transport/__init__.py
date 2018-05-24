@@ -54,10 +54,10 @@ class Transport:
     def get_path(self) -> str:
         raise NotImplementedError
 
-    def session_begin(self) -> None:
+    def begin_session(self) -> None:
         raise NotImplementedError
 
-    def session_end(self) -> None:
+    def end_session(self) -> None:
         raise NotImplementedError
 
     def read(self) -> MessageType:

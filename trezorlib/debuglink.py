@@ -32,13 +32,13 @@ def button_press(yes_no):
 class DebugLink(object):
     def __init__(self, transport, pin_func=pin_info, button_func=button_press):
         self.transport = transport
-        self.transport.session_begin()
+        self.transport.begin_session()
 
         self.pin_func = pin_func
         self.button_func = button_func
 
     def close(self):
-        self.transport.session_end()
+        self.transport.end_session()
 
     def _call(self, msg, nowait=False):
         self.transport.write(msg)

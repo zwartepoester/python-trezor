@@ -55,10 +55,10 @@ class TrezorTest:
         self.pin8 = '45678978'
 
         self.client.wipe_device()
-        self.client.transport.session_begin()
+        self.client.transport.begin_session()
 
     def teardown_method(self, method):
-        self.client.transport.session_end()
+        self.client.transport.end_session()
         self.client.close()
 
     def setup_mnemonic_allallall(self):

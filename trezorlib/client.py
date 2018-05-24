@@ -129,11 +129,11 @@ def session(f):
     def wrapped_f(*args, **kwargs):
         __tracebackhide__ = True  # pytest traceback hiding - this function won't appear in tracebacks
         client = args[0]
-        client.transport.session_begin()
+        client.transport.begin_session()
         try:
             return f(*args, **kwargs)
         finally:
-            client.transport.session_end()
+            client.transport.end_session()
     return wrapped_f
 
 
