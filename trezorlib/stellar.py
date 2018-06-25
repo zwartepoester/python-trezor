@@ -3,7 +3,7 @@ import struct
 import xdrlib
 
 from . import messages as proto
-from .tools import field, expect, CallException
+from .tools import expect, CallException
 
 # Memo types
 MEMO_TYPE_TEXT = 0
@@ -324,14 +324,12 @@ def _crc16_checksum(bytes):
 ### Client functions ###
 
 
-@field('public_key')
-@expect(proto.StellarPublicKey)
+@expect(proto.StellarPublicKey, field="public_key")
 def get_public_key(client, address_n, show_display=False):
     return client.call(proto.StellarGetPublicKey(address_n=address_n, show_display=show_display))
 
 
-@field('address')
-@expect(proto.StellarAddress)
+@expect(proto.StellarAddress, field="address")
 def get_address(client, address_n, show_display=False):
     return client.call(proto.StellarGetAddress(address_n=address_n, show_display=show_display))
 
